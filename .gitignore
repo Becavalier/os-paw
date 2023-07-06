@@ -1,0 +1,9 @@
+CMakeFiles/
+cmake_install.cmake
+CmakeCache.txt
+Makefile
+googletest*/
+.DS_Store
+*.dSYM/
+*.a
+/build*
