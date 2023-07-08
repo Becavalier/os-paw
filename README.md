@@ -9,3 +9,9 @@ cmake . -Bbuild
 cd ./build
 make
 ```
+
+### Commands
+
+```bash
+./os-paw sysconf    # Show all the runtime system configurations of the current OS.
+``` 

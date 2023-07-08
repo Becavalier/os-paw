@@ -9,7 +9,7 @@ include_directories(.)
 
 # Setup C++ configure.
 set (CMAKE_VERBOSE_MAKEFILE "OFF")
-set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD 20)
 set (CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} \
   -v       \
   -pthread \
@@ -32,10 +32,10 @@ aux_source_directory (./src DIR_SRCS)
 set (EXECUTABLE_OUTPUT_PATH ${N_OUTPUT_SRC})
 
 # Add subdirectory of the core library.
-# add_subdirectory (lib/)
+add_subdirectory (lib/)
 
 # Add executable.
 add_executable(${OUTPUT} ${DIR_SRCS})
 
-target_link_libraries (${OUTPUT} pthread)
+target_link_libraries (${OUTPUT} os-paw-core pthread)
  

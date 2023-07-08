@@ -7,3 +7,4 @@ googletest*/
 *.dSYM/
 *.a
 /build*
+.vscode/
