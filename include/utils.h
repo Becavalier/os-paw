@@ -6,6 +6,11 @@
 #include <sstream>
 #include <iomanip>
 
+namespace Core {
+
+constexpr std::true_type True {};
+constexpr std::false_type False {};
+
 class Printer {
   std::vector<int> columnWidthArr;
   std::stringstream ss;
@@ -20,12 +25,25 @@ class Printer {
   inline void output() const {
     std::cout << ss.str() << "\n\n";
   }
-  template<typename T> Printer& feed(const T& str) {
+  template<typename T, typename K = std::false_type>
+  static constexpr void reportError(T&& msg, K exit = False) {
+    std::cerr << "[!] " << std::forward<T>(msg) << std::endl;
+    if constexpr (exit) std::exit(EXIT_FAILURE);
+  }
+  template<typename T> 
+  Printer& feed(const T& str) {
     const auto idx = feedCounter++ % columnSize;
     if (idx == 0) ss << '\n';
     ss << std::left << std::setw(columnWidthArr[static_cast<int>(idx)]) << str;
     return *this;
   }
 };
+
+class Misc {
+ public:
+  static void printAssistantInfo();
+};
+
+}
 
 #endif	/* _UTILS_H */
