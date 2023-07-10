@@ -17,9 +17,9 @@ OptionRegister::InputLine OptionRegister::analyzeOption(const std::string& str) 
   if (equal != std::string_view::npos) {
     const auto cmd = strView.substr(0, equal);
     const auto arg = strView.substr(equal + 1);
-    return InputLine { std::string(cmd), std::make_optional(arg.data()) };
+    return { std::string(cmd), std::make_optional(arg.data()) };
   } else {
-    return InputLine { str, std::nullopt };
+    return { str, std::nullopt };
   }
 }
 

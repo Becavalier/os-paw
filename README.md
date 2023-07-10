@@ -22,7 +22,9 @@ Then, send commands directly.
 
 ```bash
 # Show all the runtime system configurations of the current OS.
-sysconf   
+sysconf  
+# Show detailed CPU info. 
+cpuinfo
 # Original system commands are also supported. 
 ls -al
 ```

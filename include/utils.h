@@ -5,6 +5,8 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <unordered_map>
+#include <string>
 
 namespace Core {
 
@@ -18,18 +20,22 @@ class Printer {
   size_t feedCounter = 0;
  public:
   Printer() = default;
+
   inline void setLineColumnWidth(std::vector<int>&& v) {
     columnSize = v.size();
     columnWidthArr = std::move(v);
   }
+
   inline void output() const {
     std::cout << ss.str() << "\n\n";
   }
+
   template<typename T, typename K = std::false_type>
   static constexpr void reportError(T&& msg, K exit = False) {
     std::cerr << "[!] " << std::forward<T>(msg) << std::endl;
     if constexpr (exit) std::exit(EXIT_FAILURE);
   }
+
   template<typename T> 
   Printer& feed(const T& str) {
     const auto idx = feedCounter++ % columnSize;
@@ -40,8 +46,10 @@ class Printer {
 };
 
 class Misc {
+  static const std::unordered_map<int, std::string> sigNameMap;
  public:
   static void printAssistantInfo();
+  static void setupSigHandlers();
 };
 
 }

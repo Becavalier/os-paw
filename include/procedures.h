@@ -4,11 +4,12 @@
 #include <include/utils.h>
 
 namespace Core {
-  
+
 class Procedures {
   static void printSysResult(unsigned char, const char*, const char*, Printer&);
-  public:
+ public:
   static void printSysConf();
+  static void printProcessorInfo();
 };
 
 }
