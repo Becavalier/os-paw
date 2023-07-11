@@ -26,6 +26,8 @@
 #endif
 
 #define ITERATE_SYSCONF(V, ...) \
+  V(_SC_VERSION, "VERSION", "Indicates the year and month the POSIX.1 standard was approved.", __VA_ARGS__); \
+  V(_SC_XOPEN_VERSION, "XOPEN_VERSION", "Indicates the version of the X/Open Portability Guide to which the implementation conforms.", __VA_ARGS__); \
   V(_SC_ARG_MAX, "ARG_MAX", "The maximum length of the arguments to the exec(3) family of functions.", __VA_ARGS__); \
   V(_SC_CHILD_MAX, "CHILD_MAX", "The maximum number of simultaneous processes per user ID.", __VA_ARGS__); \
   V(_SC_CLK_TCK, "CLK_TCK", "The number of clock ticks per second.", __VA_ARGS__); \

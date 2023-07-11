@@ -12,22 +12,32 @@ const std::unordered_map<int, std::string> Misc::sigNameMap {
   { SIGBUS, "SIGBUS" },
 };
 
+template<typename T>
+inline void Misc::siga(const int sig, T&& h) {
+  if (sigaction(sig, std::forward<T>(h), NULL) < 0) {
+    std::exit(EXIT_FAILURE);
+  }
+}
+
 void Misc::printAssistantInfo() {
-  std::cout << "\n(🐈 os-paw 🐕)" << "\n\nBuilt at: (" << BUILDSTAMP << ')' << "\n\n";
+  std::cout << "\n(🐈 os-paw 🐕)" << "\n\nBuilt at: " << BUILDSTAMP << "\n\n";
 }
 
 void Misc::setupSigHandlers() {
-  struct sigaction sa;
-  sigemptyset(&sa.sa_mask);
-  sa.sa_flags = 0;
-  sa.sa_handler = [](int sigRecv) { 
-    const auto item = sigNameMap.find(sigRecv);
-    std::cout << (item != sigNameMap.end() ? item->second : "SIGERR") << std::endl;
-    std::exit(EXIT_FAILURE); 
+  struct sigaction sa {
+    .sa_flags = 0,
+    .sa_handler {
+      [](int sigRecv) { 
+        const auto item = sigNameMap.find(sigRecv);
+        std::cout << (item != sigNameMap.end() ? item->second : "SIGERR") << std::endl;
+        std::exit(EXIT_FAILURE); 
+      }
+    }
   };
-  if (sigaction(SIGILL, &sa, NULL) < 0) {
-    std::exit(EXIT_FAILURE);
-  }
+  sigemptyset(&sa.sa_mask);
+  Misc::siga(SIGILL, &sa);
+  Misc::siga(SIGSEGV, &sa);
+  Misc::siga(SIGBUS, &sa);
 }
 
 }

@@ -11,17 +11,17 @@ include_directories(.)
 set (CMAKE_VERBOSE_MAKEFILE "OFF")
 set (CMAKE_CXX_STANDARD 20)
 set (CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} \
-  -v       \
-  -pthread \
-  -O0      \
-  -Wall    \
-  -g       \
+  -v          \
+  -pthread    \
+  -O0         \
+  -Wall       \
+  -g          \
   -ggdb")
 set (CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} \
-  -v       \
-  -pthread \
-  -Ofast   \
-  -DNDEBUG \
+  -v          \
+  -pthread    \
+  -Ofast      \
+  -DNDEBUG    \
   -Wall")
 
 set (OUTPUT "os-paw")

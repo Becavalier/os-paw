@@ -30,9 +30,19 @@ class Printer {
     std::cout << ss.str() << "\n\n";
   }
 
+  inline Printer& boldOn() {
+    ss << "\e[1m";
+    return *this;
+  }
+
+  inline Printer& boldOff() {
+    ss << "\e[0m";
+    return *this;
+  }
+
   template<typename T, typename K = std::false_type>
   static constexpr void reportError(T&& msg, K exit = False) {
-    std::cerr << "[!] " << std::forward<T>(msg) << std::endl;
+    std::cerr << "[✖] " << std::forward<T>(msg) << std::endl;
     if constexpr (exit) std::exit(EXIT_FAILURE);
   }
 
@@ -46,6 +56,8 @@ class Printer {
 };
 
 class Misc {
+  template<typename T>
+  inline static void siga(const int, T&&);
   static const std::unordered_map<int, std::string> sigNameMap;
  public:
   static void printAssistantInfo();

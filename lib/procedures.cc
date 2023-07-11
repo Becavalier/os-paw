@@ -11,7 +11,7 @@
 namespace Core {
 
 void Procedures::printSysResult(unsigned char option, const char* label, const char* desc, Printer &printer) {
-  printer.feed(label).feed(desc);
+  printer.boldOn().feed(label).boldOff();
   errno = 0;  // Reset errno first.
   const auto configVal = sysconf(option);
   if (configVal < 0) {
@@ -23,19 +23,39 @@ void Procedures::printSysResult(unsigned char option, const char* label, const c
   } else {
     printer.feed(configVal);
   }
+  printer.feed(desc);
 }
 
 void Procedures::printSysConf() {
   Printer printer;
-  printer.setLineColumnWidth({ 17, 90, 15 });
-  printer.feed("[Option]").feed("[Desc]").feed("[Value]\n");
+  std::cout << "\nOption / Value / Description:\n\n";
+  std::cout << "* Please note the config value is only FYI, maybe it's not consistent with the implementation.\n";
+  printer.setLineColumnWidth({ 17, 10, 90 });
   ITERATE_SYSCONF(printSysResult, printer);
   printer.output();
 }
 
 void Procedures::printProcessorInfo() {
   #if defined(__x86_64__) && !defined(POSIX_CPU_INFO)
-    // TODO.
+    #define INFO_ARR_SIZE 33
+    #define ITER_BRAND_STR(V, BUF) \
+      V("0x80000002", BUF) \
+      V("0x80000003", BUF) \
+      V("0x80000004", BUF)
+    #define FETCH_CPU_INFO(CODE, BUF) \
+      __asm__( \
+        "movl $" CODE ", %%eax\n\t" \
+        "cpuid\n\t" \
+        "movl %%eax, %0\n\t" \
+        "movl %%ebx, 0x04 + %0\n\t" \
+        "movl %%ecx, 0x08 + %0\n\t" \
+        "movl %%edx, 0x0c + %0" \
+        : "=m" (BUF)); \
+      std::cout << BUF;
+    uint8_t buffer[INFO_ARR_SIZE];
+    buffer[INFO_ARR_SIZE - 1] = '\0';
+    ITER_BRAND_STR(FETCH_CPU_INFO, buffer)
+    std::cout << std::endl;
   #elif defined(__aarch64__) && !defined(POSIX_CPU_INFO)
     uint64_t mainIdRegVal;
     __asm__("mrs %0, MIDR_EL1" : "=r" (mainIdRegVal));  // This requires EL1 level.
@@ -48,7 +68,7 @@ void Procedures::printProcessorInfo() {
         std::cout << c << std::endl;
       }
     } else {
-      Printer::reportError("Not able to detect the CPU information.");
+      Printer::reportError("unable to detect CPU information.");
     }
   #endif
 }

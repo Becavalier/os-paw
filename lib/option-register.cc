@@ -28,7 +28,7 @@ void OptionRegister::parse(std::string& str) const {
   pid_t pid;
   int processStatus;
   if ((pid = fork()) < 0) {
-    Printer::reportError("Error forking a process.");  
+    Printer::reportError("error forking a process.");  
   } else if (pid == 0) {
     // Analyze the input command.
     const auto inputLine = analyzeOption(str);
@@ -42,11 +42,11 @@ void OptionRegister::parse(std::string& str) const {
       const auto ret = inputLine.arg.has_value() 
         ? execlp(execFile, execFile, inputLine.arg.value(), (char*) 0) 
         : execlp(execFile, execFile, (char*) 0);  
-      if (ret < 0) Printer::reportError("Error executing the command - \"" + str + "\".", True);  
+      if (ret < 0) Printer::reportError("error executing the command - \"" + str + "\".", True);  
     }
   }
   if ((pid = waitpid(pid, &processStatus, 0)) < 0) {
-    Printer::reportError("Error waiting for a child process.");
+    Printer::reportError("error waiting for a child process.");
   }
 }
 
