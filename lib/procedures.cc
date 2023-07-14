@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
+#include <cstring>
 #include <include/procedures.h>
 #include <include/unix.h>
 #include <include/macros.h>
@@ -18,7 +19,7 @@ void Procedures::printSysResult(unsigned char option, const char* label, const c
     if (errno != 0) {
       printer.feed(errno == EINVAL ? "N/A" : "Error");  // Invalid argument.
     } else {
-      printer.feed("No Limit");
+      printer.feed(strstr(label, "POSIX") != nullptr ? "✖" : "No Limit");
     }
   } else {
     printer.feed(configVal);
@@ -30,7 +31,7 @@ void Procedures::printSysConf() {
   Printer printer;
   std::cout << "\nOption / Value / Description:\n\n";
   std::cout << "* Please note the config value is only FYI, maybe it's not consistent with the implementation.\n";
-  printer.setLineColumnWidth({ 17, 10, 90 });
+  printer.setLineColumnWidth({ 28, 10, 90 });
   ITERATE_SYSCONF(printSysResult, printer);
   printer.output();
 }

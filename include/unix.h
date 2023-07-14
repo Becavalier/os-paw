@@ -1,12 +1,12 @@
 #ifndef	_UNIX_H
 #define	_UNIX_H
 
-#define _POSIX_C_SOURCE 200809L
+#define _POSIX_C_SOURCE 200809L  // Only use POSIX definition.
 
 #if defined(SOLARIS)		/* Solaris 10 */
 #define _XOPEN_SOURCE 600
 #else
-#define _XOPEN_SOURCE 700
+#define _XOPEN_SOURCE 700  // Use XSI options of SUSv4.
 #endif
 
 #include <sys/types.h>		/* some systems still require this */

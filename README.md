@@ -21,10 +21,14 @@ Get into the dedicated shell for running os-paw.
 Then, send commands directly.
 
 ```bash
-# Show all the runtime system configurations of the current OS.
-sysconf  
-# Show detailed CPU info. 
-cpuinfo
+sysconf    # Show all the runtime system configurations of the current OS.
+cpuinfo    # Show detailed CPU info. 
 # Original system commands are also supported. 
 ls -al
 ```
+
+BTW, you can also run the command direclty like below:
+
+```bash
+./os-paw sysconf
+``` 
